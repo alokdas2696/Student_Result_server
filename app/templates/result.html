@@ -29,10 +29,10 @@
   </div>
 </nav>
 <div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Welcome {{f.name}},</h4>
+  <h4 class="alert-heading">Welcome {{data.name}},</h4>
     <hr>
 
-    <p class="text-success">{{msg}}:<b>{{f.email}}</b></p>
+    <p class="text-success">{{msg}}:<b>{{data.email}}</b></p>
 
 
 </div>
@@ -53,19 +53,19 @@
     </tr>
   </thead>
        <tr>
-      <td>{{f.stuid}}</td>
-      <td>{{f.name}}</td>
-      <td>{{f.email}}</td>
-      <td>{{f.mtmarks}}</td>
-      <td>{{f.scmarks}}</td>
-      <td>{{f.csmarks}}</td>
-           <th>{{f.csmarks + f.mtmarks + f.scmarks}}</th>
-            <th>{{(((f.csmarks + f.mtmarks + f.scmarks)/300)*100)|round }}</th>
+      <td>{{data.stuid}}</td>
+      <td>{{data.name}}</td>
+      <td>{{data.email}}</td>
+      <td>{{data.mtmarks}}</td>
+      <td>{{data.scmarks}}</td>
+      <td>{{data.csmarks}}</td>
+           <th>{{data.csmarks + data.mtmarks + data.scmarks}}</th>
+            <th>{{(((data.csmarks + data.mtmarks + data.scmarks)/300)*100)|round }}</th>
     </tr>
    </table>
 
 <a href="/" type="button" class="btn btn-outline-dark btn-sm mx-1">Go Back to Dashboard</a>
-<a href="/download/{{d}}" class="btn btn-outline-dark btn-sm mx-1" type="submit">Download</a>
+<a href="/download/{{sid}}" class="btn btn-outline-dark btn-sm mx-1" type="submit">Download</a>
 
 </body>
 </html>

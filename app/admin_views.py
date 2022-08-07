@@ -33,26 +33,26 @@ def logout():
 def admin2():
     if "username" in session:
         page = request.args.get('page', 1, type=int)
-        alldata1 = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
-        return render_template('index1.html', alldata1=alldata1)
+        all_data = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
+        return render_template('index1.html', alldata=all_data)
     else:
         return redirect('/')
 
 
 @main2.route('/add', methods=['GET', 'POST'])
-def addstu():
+def add_stu():
     if "username" in session:
         if request.method == 'POST':
             stuid = request.form.get('stuid')
-            name = request.form.get('name')
+            stu_name = request.form.get('name')
             email = request.form.get('email')
-            mbno = request.form.get('mbno')
-            mtmarks = request.form.get('mtmarks')
-            scmarks = request.form.get('scmarks')
-            csmarks = request.form.get('csmarks')
+            mobile_no = request.form.get('mbno')
+            math_marks = request.form.get('mtmarks')
+            science_marks = request.form.get('scmarks')
+            computer_marks = request.form.get('csmarks')
 
-            alldata = Student.query.all()
-            for student in alldata:
+            all_data = Student.query.all()
+            for student in all_data:
                 if student.email == email:
                     flash(f"This data already exits: {email} ", "info")
                     return redirect('/admin')
@@ -60,9 +60,9 @@ def addstu():
                     flash(f"This data already exits: {stuid} ", "info")
                     return redirect('/admin')
 
-            stu = Student(stuid=stuid.strip(), name=name.strip(), email=email.strip(),
-                          mbno=mbno.strip(), mtmarks=mtmarks.strip(), scmarks=scmarks.strip(),
-                          csmarks=csmarks.strip())
+            stu = Student(stuid=stuid.strip(), name=stu_name.strip(), email=email.strip(),
+                          mbno=mobile_no.strip(), mtmarks=math_marks.strip(), scmarks=science_marks.strip(),
+                          csmarks=computer_marks.strip())
             db.session.add(stu)
             db.session.commit()
             flash(f"Data inserted successfully ", "info")
@@ -76,20 +76,20 @@ def update(stuid):
     if "username" in session:
         if request.method == 'POST':
             stuid = request.form.get('stuid')
-            name = request.form.get('name')
+            stu_name = request.form.get('name')
             email = request.form.get('email')
-            mbno = request.form.get('mbno')
-            mtmarks = request.form.get('mtmarks')
-            scmarks = request.form.get('scmarks')
-            csmarks = request.form.get('csmarks')
+            mobile_no = request.form.get('mbno')
+            math_marks = request.form.get('mtmarks')
+            science_marks = request.form.get('scmarks')
+            computer_marks = request.form.get('csmarks')
             stu = Student.query.filter_by(stuid=stuid).first()
             stu.stuid = stuid
-            stu.name = name
+            stu.name = stu_name
             stu.email = email
-            stu.mbno = mbno
-            stu.mtmarks = mtmarks
-            stu.scmarks = scmarks
-            stu.csmarks = csmarks
+            stu.mbno = mobile_no
+            stu.mtmarks = math_marks
+            stu.scmarks = science_marks
+            stu.csmarks = computer_marks
             try:
                 db.session.add(stu)
                 db.session.commit()
@@ -118,15 +118,15 @@ def delete(stuid):
         return redirect("/")
 
 
-@main2.route('/search',methods=['GET','POST'])
+@main2.route('/search', methods=['GET', 'POST'])
 def search():
     if 'username' in session:
         if request.method == 'POST' and 'tag' in request.form:
             tag = request.form.get('tag')
             search = "%{}%".format(tag)
             page = request.args.get('page', 1, type=int)
-            alldata1 = Student.query.filter(Student.name.like(search)).paginate(per_page=20, page=int(page))
-            return render_template('index1.html', alldata1=alldata1, tag=tag)
+            all_data = Student.query.filter(Student.name.like(search)).paginate(per_page=20, page=int(page))
+            return render_template('index1.html', alldata=all_data, tag=tag)
         return render_template("email.html")
     return redirect('/')
 
