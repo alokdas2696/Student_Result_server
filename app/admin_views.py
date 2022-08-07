@@ -14,7 +14,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username.strip() == "admin" and password.strip() == "12345":
+        if username.strip() == "admin" and password.strip() == os.environ.get('PASS'):
             session['username'] = username
             return redirect("/admin")
         else:

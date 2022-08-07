@@ -28,7 +28,7 @@ def send_otp(email, gen_otp):
     session['response'] = str(gen_otp)
     # sending otp to registered email-id respective to roll number
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login('sturesultserver@gmail.com', 'nwcknlephjurfrgx')
+        smtp.login('sturesultserver@gmail.com', os.environ.get('PASS'))
         subject = 'OTP FROM RESULT SERVER'
         body = gen_otp
         msg = f'Subject:{subject}\n\nDear Student \n \n ' \
@@ -80,7 +80,7 @@ def validate(sid):
             if s == str(user_otp):
 
                 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-                    smtp.login('sturesultserver@gmail.com', 'nwcknlephjurfrgx')
+                    smtp.login('sturesultserver@gmail.com', os.environ.get('PASS'))
                     subject = 'Result'
                     body = (str(data.name) + "\n Email: " + str(data.email) + "\n Math Marks: " + str(data.mtmarks) +
                             "\n Science Marks: " + str(data.scmarks) + "\n Computer Marks: " + str(data.csmarks) +
