@@ -98,7 +98,7 @@ def validate(sid):
 def download(sid):
     data = Student.query.get(sid)
     rendered = render_template('result.html', data=data, msg="Result has been Send to your given respected Email Id")
-    path_wkhtmltopdf = os.environ.get(b"C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe")
+    path_wkhtmltopdf = b"C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe"
     config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     pdf = pdfkit.from_string(rendered, False, configuration=config)
     response = make_response(pdf)
