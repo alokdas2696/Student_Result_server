@@ -92,7 +92,7 @@ def validate(sid):
                 return render_template('result.html', data=data, sid=sid,
                                        msg="Result has been Send to your given respected Email Id")
         return render_template("email.html", msg="Wrong OTP!........Please Login Again")
-        # return render_template('email.html')
+
 
 
 @main.route('/download/<int:sid>', methods=['GET', 'POST'])
