@@ -1,9 +1,7 @@
 from flask import Blueprint, session, request, render_template, redirect, flash
 from .models import Student, db
 import os
-from flask_admin import Admin   #admin
-from flask_admin.contrib.sqla import ModelView    #admin
-from werkzeug.exceptions import abort    #admin
+from flask_admin import Admin
 
 main2 = Blueprint('main2', __name__)
 admin = Admin()
