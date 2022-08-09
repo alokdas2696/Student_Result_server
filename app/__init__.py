@@ -13,7 +13,6 @@ def create_app(config_file='settings.py'):
 
     app.register_blueprint(main)
     app.register_blueprint(main2)
-
     admin.init_app(app)
     return app
 
