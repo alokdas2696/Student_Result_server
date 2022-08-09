@@ -94,7 +94,6 @@ def validate(sid):
         return render_template("email.html", msg="Wrong OTP!........Please Login Again")
 
 
-
 @main.route('/download/<int:sid>', methods=['GET', 'POST'])
 def download(sid):
     data = Student.query.get(sid)
