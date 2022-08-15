@@ -1,7 +1,7 @@
 from flask import Flask
 from .extensions import db
 from .students_views import main
-from .admin_views import main2, admin
+from .admin_views import main2
 
 
 def create_app(config_file='settings.py'):
@@ -15,6 +15,7 @@ def create_app(config_file='settings.py'):
     app.register_blueprint(main)
     app.register_blueprint(main2)
 
-    admin.init_app(app)
+
+    # admin.init_app(app)
     return app
 

@@ -4,7 +4,7 @@ import os
 from flask_admin import Admin
 
 main2 = Blueprint('main2', __name__)
-admin = Admin()
+# admin = Admin()
 
 
 @main2.route("/login", methods=['GET', 'POST'])
