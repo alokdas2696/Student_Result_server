@@ -7,6 +7,7 @@ from .admin_views import main2, admin
 def create_app(config_file='settings.py'):
     app = Flask(__name__)
     app.secret_key = "login"
+
     app.config.from_pyfile(config_file)
 
     db.init_app(app)
@@ -17,4 +18,3 @@ def create_app(config_file='settings.py'):
     admin.init_app(app)
     return app
 
-# --------------

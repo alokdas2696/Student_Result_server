@@ -1,6 +1,5 @@
-from flask import Blueprint, request, render_template, session, redirect, flash, make_response
+from flask import Blueprint, request, render_template, session, redirect, make_response
 from .models import Student
-from .extensions import db
 import os
 import smtplib
 import random
