@@ -1,18 +1,17 @@
 from flask import Blueprint, session, request, render_template, redirect, flash
 from .models import Student, db
 import os
-from flask_admin import Admin
-
 main2 = Blueprint('main2', __name__)
-# admin = Admin()
 
 
+# ---------------- Admin_login ---------------------
 @main2.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if username.strip() == "admin" and password.strip() == os.environ.get('PASSWORD'):
+            # storing username in session
             session['username'] = username
             return redirect("/admin")
         else:
@@ -21,15 +20,18 @@ def login():
     return render_template("login.html")
 
 
+# ---------------- Admin_logout ---------------------
 @main2.route("/logout")
 def logout():
     session.pop('username')
     return render_template('login.html')
 
 
+# ---------------- Admin_home_page ---------------------
 @main2.route("/admin", methods=['GET', 'POST'])
 def admin2():
     if "username" in session:
+        # pagination logic
         page = request.args.get('page', 1, type=int)
         all_data = Student.query.order_by(Student.stuid.asc()).paginate(page=int(page), per_page=5)
         return render_template('index1.html', alldata=all_data)
@@ -37,6 +39,7 @@ def admin2():
         return redirect('/')
 
 
+# ---------------- Admin_adding_students ---------------------
 @main2.route('/add', methods=['GET', 'POST'])
 def add_stu():
     if "username" in session:
@@ -52,16 +55,18 @@ def add_stu():
             all_data = Student.query.all()
             for student in all_data:
                 if student.email == email:
-                    flash(f"This data already exits: {email} ", "info")
+                    flash(f"This email is already exits: {email} ", "info")
                     return redirect('/admin')
                 elif student.stuid == int(stuid):
-                    flash(f"This data already exits: {stuid} ", "info")
+                    flash(f"This roll number is already exits: {stuid} ", "info")
                     return redirect('/admin')
-
+            # declare an object 'stu' of this 'Student' class
             stu = Student(stuid=stuid.strip(), name=stu_name.strip(), email=email.strip(),
                           mbno=mobile_no.strip(), mtmarks=math_marks.strip(), scmarks=science_marks.strip(),
                           csmarks=computer_marks.strip())
+            # persistently add it to the table 'Student' by add() method of session object
             db.session.add(stu)
+            # session.commit() commits (persists) those changes to the database
             db.session.commit()
             flash(f"Data inserted successfully ", "info")
             return redirect('/admin')
@@ -69,6 +74,7 @@ def add_stu():
     return redirect('/')
 
 
+# ---------------- Admin_updating_students ---------------------
 @main2.route("/update/<int:stuid>", methods=['GET', 'POST'])
 def update(stuid):
     if "username" in session:
@@ -104,10 +110,12 @@ def update(stuid):
         return redirect("/")
 
 
+# ---------------- Admin_deleting_student_records---------------------
 @main2.route("/delete/<int:stuid>")
 def delete(stuid):
     if "username" in session:
         stu = Student.query.filter_by(stuid=stuid).first()
+        # persistently delete from  the table 'Student' by delete() method of session object
         db.session.delete(stu)
         db.session.commit()
         flash(f"Data deleted successfully ", "danger")
@@ -116,15 +124,17 @@ def delete(stuid):
         return redirect("/")
 
 
+# ---------------- Admin_Searching_Student_Records---------------------
 @main2.route('/search', methods=['GET', 'POST'])
 def search():
     if 'username' in session:
         if request.method == 'POST' and 'tag' in request.form:
             tag = request.form.get('tag')
             search = "%{}%".format(tag)
+            print(search)
             page = request.args.get('page', 1, type=int)
+            # searching student name from Student table
             all_data = Student.query.filter(Student.name.like(search)).paginate(per_page=20, page=int(page))
             return render_template('index1.html', alldata=all_data, tag=tag)
         return render_template("email.html")
     return redirect('/')
-
